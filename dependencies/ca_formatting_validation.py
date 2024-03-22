@@ -25,7 +25,7 @@ async def payload_validation(data: dict):
             encrypted_password = password_handler.encrypt()
             data['password']=encrypted_password
             return data
-
+ 
     else:
         raise HTTPException(status_code=422, detail="Invalid email or phone formatting")
  

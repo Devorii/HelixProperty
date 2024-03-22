@@ -49,3 +49,4 @@ class Properties(Base):
     unit=Column(Integer)
     primary_owner=Column(String)
     other_owners=Column(String)
+

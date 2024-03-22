@@ -4,7 +4,7 @@ Author: Decory Herbert
 
 from fastapi import HTTPException
 from database_ops.db_connection import get_db
-from database_ops.models.db_models import Owner, Tenants
+from database_ops.models.db_models import Owner, Tenants, Properties
 from encryption.handler import Encryption_handler
 from sqlalchemy import select, update, and_, not_
 
@@ -15,12 +15,36 @@ async def add_user(user:dict):
     try:
         with get_db() as db:
             acc = user['account']
+
             user.pop('account', None)
             db.add(user_account[acc](**user))
             db.commit()
+            
             return dict(email=user['email'])
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"failed to add user - {e}")
+
+async def add_property(property:dict):
+    ''' Creates new proprty'''
+    try:
+        with get_db() as db:
+            query = select(Owner.id).where(Owner.email==property["email"])
+            property.pop('occupation', None) 
+            property.pop('account', None)
+            property.pop('email', None)
+            result=db.execute(query).fetchone()
+
+            if property['primary_owner'] != "false":
+                property['primary_owner']=result[0]
+            else:  
+                property['primary_owner']=0
+                property['other_owners']=result[0]
+
+            db.add(Properties(**property))
+            db.commit()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"failed to add user - {e}")
+
 
 async def does_email_exist(user_email:str, account: str):
     '''Checks for email existence'''
