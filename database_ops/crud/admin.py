@@ -19,7 +19,7 @@ async def add_user(user:dict):
             user.pop('account', None)
             db.add(user_account[acc](**user))
             db.commit()
-            
+    
             return dict(email=user['email'])
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"failed to add user - {e}")
