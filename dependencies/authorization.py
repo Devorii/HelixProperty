@@ -34,7 +34,3 @@ async def user_login_method(user_data:Login):
 
 
 
-    # IS THE ACCOUNT VERIFIED
-    # MATCH PASSWORD
-
-

@@ -32,7 +32,7 @@ class Tenants(Base):
     email=Column(String)
     phone=Column(String)
     password=Column(String)
-    property_id=Column(Integer)
+    property_id=Column(String)
     occupation=Column(String)
     company=Column(String)
     salary=Column(Integer)
@@ -42,6 +42,7 @@ class Properties(Base):
     '''User table model'''
     __tablename__= "properties"
     idproperties=Column(Integer, primary_key=True)
+    property_code=Column(String)
     country=Column(String)
     province=Column(String)
     city=Column(String)

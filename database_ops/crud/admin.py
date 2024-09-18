@@ -7,6 +7,7 @@ from database_ops.db_connection import get_db
 from database_ops.models.db_models import Owner, Tenants, Properties
 from encryption.handler import Encryption_handler
 from sqlalchemy import select, update, and_, not_
+import uuid
 
 user_account = {'OW1':Owner, 'TE1': Tenants}
 
@@ -26,6 +27,8 @@ async def add_user(user:dict):
 
 async def add_property(property:dict):
     ''' Creates new proprty'''
+    # Generate random property code
+    random_propery_loc_number= str(uuid.uuid4())[0:13].replace("-","")
     try:
         with get_db() as db:
             query = select(Owner.id).where(Owner.email==property["email"])
@@ -36,10 +39,12 @@ async def add_property(property:dict):
 
             if property['primary_owner'] != "false":
                 property['primary_owner']=result[0]
+                
             else:  
                 property['primary_owner']=0
                 property['other_owners']=result[0]
-
+                
+            property['property_code']=random_propery_loc_number
             db.add(Properties(**property))
             db.commit()
     except Exception as e:
