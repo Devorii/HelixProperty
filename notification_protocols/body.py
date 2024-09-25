@@ -111,7 +111,7 @@ def email_body(artifacts:dict):
         <p>Dear {artifacts['name']},</p>
         <p>We are excited to welcome you to Helix Property Management. Thank you for joining our community!</p>
         <p>Please click the button below to confirm your email address and get started:</p>
-        <a href="http://127.0.0.1:5000/admin/verify-accout/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Confirm Email</a>
+        <a href="https://helix-be-e052a79bf800.herokuapp.com/admin/verify-accout/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Confirm Email</a>
         <p>If you have any questions or need assistance, feel free to contact our support team.</p>
         <p>Best regards,<br> The Helix Property Management Team</p>
     </div>
