@@ -5,7 +5,7 @@ from routers import admin
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://helixfe-f7f5ccd10635.herokuapp.com","https://helixpropertymanagement-718e761927a1.herokuapp.com/"],
+    allow_origins=["http://localhost:3000","https://helixpropertymanagement-718e761927a1.herokuapp.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
