@@ -3,7 +3,7 @@ from typing import Annotated
 from models.request import Create_user_request, Login
 from models.repsonse import Create_account_response
 from dependencies.ca_formatting_validation import payload_validation
-from dependencies.authorization import validate_user_account, user_login_method
+from dependencies.authorization import user_login_method
 from database_ops.crud.admin import add_user, get_uid, verify_accounts, add_property
 from encryption.handler import Encryption_handler, Generate_random_hash
 from notification_protocols.email import Create_email_notification
@@ -56,6 +56,7 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
             await add_property(property_obj)
 
         else:
+            user_data['salary']=user_data['salary'].replace(',','').replace('$','')
             user_data.pop('country', None) 
             user_data.pop('propAddress', None) 
             user_data.pop('city', None) 

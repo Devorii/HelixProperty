@@ -79,6 +79,25 @@ async def get_uid(email:str, account:str):
         raise HTTPException(status_code=400, detail="user not found")
 
 
+
+
+async def get_user_initials(email:str,account:str):
+    try: 
+        with get_db() as db:
+            operator = select(user_account[account].firstname, user_account[account].lastname ).where(user_account[account].email == email)
+            user_init = db.execute(operator).fetchall()
+            if user_init is not None:
+                response=user_init[0]
+                initials=str(response[0][0])+str(response[1][0])
+
+        return dict(initials=initials)
+    except Exception as e:  
+        raise HTTPException(status_code=400, detail=f"e: {e}")
+
+
+
+
+
 async def verify_accounts(payload: dict):
     '''Validate user's Hash'''
     try: 

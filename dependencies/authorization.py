@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from encryption.handler import Encryption_handler
 from models.request import Login
-from database_ops.crud.admin import is_user
+from database_ops.crud.admin import is_user, get_user_initials
 
 def validate_user_account(user:dict):
     '''CONVERTS USER TOKEN TO ID'''
@@ -10,7 +10,7 @@ def validate_user_account(user:dict):
         raise HTTPException(status_code=403, detail='Unauthorized access. Token is missing')
     else:
         # Decode token
-        instantiate_ecryptor = Encryption_handler(token, "password")
+        instantiate_encryptor = Encryption_handler(token, "password")
         uid=Encryption_handler.decrypt()
         user['token']=uid
         return user
@@ -29,7 +29,7 @@ async def user_login_method(user_data:Login):
             raise HTTPException(status_code=403, detail="Invalid password")
         else: 
             generated_token=encrypt_token.encrypt()
-            return dict(status_code=200,  token=generated_token)
+            return dict(status_code=200,  token=generated_token, user_initials=await get_user_initials(user_data.email, user_data.account))
 
 
 
