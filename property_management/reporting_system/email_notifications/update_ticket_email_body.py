@@ -4,18 +4,6 @@ def email_body(artifacts:dict):
         <path d='M12 21.35l-1.45-1.32C6.34 15.36 3 12.28 3 8.5 3 5.42 5.42 3 8.5 3c1.74 0 3.41.81 4.5 2.09C14.09 3.81 15.76 3 17.5 3 20.58 3 23 5.42 23 8.5c0 3.78-3.34 6.86-7.55 11.54L12 21.35z'/>
     </svg>
     """
-    if artifacts['account'] != 'TE1':
-        inject_elements=f"""
-        <span class="property-code" style="background-color: rgb(237, 244 ,255); border-radius: 4px; display: flex; justify-content: center !important; align-items: center; width: 100%;">
-            <p class="prop-code" style="width: 100%; text-align:center !important; color: rgb(4, 58, 145); font-size: 35px;">{artifacts['propId']}</p>
-        </span>
-
-        <p>Share the above code with your tenants when onboarding.</p>
-        """
-    else:
-        inject_elements="""
-        <p>To fully enjoy our services follow the instructions below.</p>
-        """
 
     body = f"""
 <!DOCTYPE html>
@@ -120,14 +108,16 @@ def email_body(artifacts:dict):
         {svg_logo}
     </div>
     <div class="container">
-        <h1 style="color: rgb(4, 58, 145)">Welcome to Helix Property Management!</h1>
-        <p>Dear {artifacts['name']},</p>
-        <p>We are excited to welcome you to Helix Property Management.</p>
-        {inject_elements}
+        <h1 style="color: rgb(4, 58, 145)">Ticket #{artifacts['ticket_num']} was updated.</h1>
+        <p>Dear user,</p>
+        <p>{artifacts['username']} has updated the following issue to {artifacts['status']}.</p>
+        </br>
+        <p>Issue: {artifacts['issue']}</p>
+        <p>Updated on: {artifacts['date']}</p>
 
-        <a href="https://helix-be-e052a79bf800.herokuapp.com/admin/verify-accout/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Verify Account</a>
-        <p style="margin-top: 20px;">If you have any questions or need assistance, feel free to contact our support team.</p>
-        <p>Best regards,<br> The Helix Property Management Team</p>
+    
+        
+        <a class="cta-button" href="https://helix-be-e052a79bf800.herokuapp.com/home">View Ticket</a>
     </div>
 </body>
 </html>

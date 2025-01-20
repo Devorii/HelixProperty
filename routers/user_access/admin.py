@@ -1,18 +1,27 @@
 from fastapi import APIRouter, HTTPException, Depends, BackgroundTasks
 from typing import Annotated
-from models.request import Create_user_request, Login
+from models.request import Login
 from models.repsonse import Create_account_response
 from dependencies.ca_formatting_validation import payload_validation
-from dependencies.authorization import user_login_method
-from database_ops.crud.admin import add_user, get_uid, verify_accounts, add_property
-from encryption.handler import Encryption_handler, Generate_random_hash
+from security.access_control.auth.login import user_login_method
+from security.access_control.crud_db.user_access import add_user, get_uid
+from security.access_control.crud_db.account_access import verify_accounts
+from property_management.add_property import add_property
+from security.encryption.handler import Encryption_handler, Generate_random_hash
 from notification_protocols.email import Create_email_notification
-import json
+from security.access_control.crud_db.get_property_id import get_property_id
+from security.access_control.auth.dependencies.session_control import validate_user_account
+
 router = APIRouter(
     prefix="/admin",
     tags=["admin"],
     responses={404: {"description": "Not found"}}
 )
+
+@router.post('/validate-home')
+async def validate_home(validate_token:str=Depends(validate_user_account)):
+    return 'Access Granted'
+
 
 @router.post("/create-account")
 async def create_account(user_data: Annotated[dict, Depends(payload_validation)], background_task:BackgroundTasks):
@@ -53,9 +62,10 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
             user_data.pop('code', None)     
 
             await add_user(user_data)
-            await add_property(property_obj)
+            prop_id=await add_property(property_obj)
 
         else:
+            prop_id=user_data['code']
             user_data['salary']=user_data['salary'].replace(',','').replace('$','')
             user_data.pop('country', None) 
             user_data.pop('propAddress', None) 
@@ -65,12 +75,13 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
             user_data.pop('propCity', None) 
             user_data.pop('propProvince', None) 
             user_data.pop('unit', None) 
-            user_data.pop('code', None)
             user_data.pop('po', None)   
+            user_data['property_id']=user_data['code']
+            user_data.pop('code', None)
             await add_user(user_data)
 
         token = await get_uid(user_data['email'], account)
-        email_artifacts = dict(email=user_data['email'], name=user_data['firstname'], hash_code=crop_hash, account=account, token=token)
+        email_artifacts = dict(email=user_data['email'], name=user_data['firstname'], hash_code=crop_hash, account=account, token=token, propId=prop_id)
         # # # Send email as background task.
 
         create_notificaiton = Create_email_notification(email_artifacts)
@@ -83,6 +94,11 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
 
 @router.post("/login")
 async def login(payload:Annotated[Login, Depends(user_login_method)]):
+    property_assets=dict(uid=payload['uid'], account=payload['account'])
+    property_id=await get_property_id(property_assets)
+    payload['property_id']=property_id
+    _,_=payload.pop('uid'),payload.pop('account')
+
     return payload
 
 

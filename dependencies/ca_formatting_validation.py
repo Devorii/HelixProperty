@@ -1,9 +1,10 @@
 
 import re
 from fastapi import HTTPException
-from models.request import Create_user_request
-from encryption.handler import Encryption_handler
-from database_ops.crud.admin import does_email_exist
+from security.encryption.handler import Encryption_handler
+from security.access_control.crud_db.account_access import does_email_exist
+# from models.request import Create_user_request
+
 
 
 

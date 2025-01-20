@@ -3,14 +3,14 @@ import smtplib
 from dotenv import load_dotenv
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from notification_protocols.body import email_body
+from property_management.reporting_system.email_notifications.closed_ticket_email_body import email_body
 load_dotenv()
 
 
-
-class Create_email_notification():
+class CloseTicket_email_notification():
     def __init__(self, artifacts:dict):
         self.user_email=artifacts['email']
+        self.username=artifacts['username']
         self.sender_email=os.getenv('SENDERS_EMAIL')
         self.auth_password=os.getenv('SENDERS_PASSWORD')
         self.body_artifacts=artifacts
@@ -20,7 +20,7 @@ class Create_email_notification():
         message = MIMEMultipart()
         message["From"] = self.sender_email
         message["To"] = self.user_email
-        message["Subject"] = "Helix Proptery Management - Verify your account"
+        message["Subject"] = f"HP Management - {self.username} closed a ticket"
         body = email_body(self.body_artifacts)
         message.attach(MIMEText(body, "html"))
 

@@ -9,8 +9,10 @@ class CacheTool:
     @staticmethod
     def set_cache(token):
         cache_tool[f'user_{token}']=token
+        print(cache_tool.get(f'user_{token}'))
 
     @staticmethod
     def get_cache(token):
         cached_token = cache_tool.get(f'user_{token}')
+        print(cached_token)
         return cached_token

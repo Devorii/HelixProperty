@@ -1,4 +1,19 @@
-from sqlalchemy import Column, String, TIMESTAMP, Integer, Date
+"""
+Module Name: users.py
+Description: Defines our user models.
+
+Author: Decory Herbert
+Version: 1.0.x
+Date Created: 2023-05-01
+Last Modified: 2024-12-12
+
+
+Dependencies:
+    - sqlalchemy >= 2.0.27
+    - cachetools >= 5.5.x
+"""
+
+from sqlalchemy import Column, String, Integer, Date
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -37,17 +52,3 @@ class Tenants(Base):
     company=Column(String)
     salary=Column(Integer)
     verification=Column(String)
-
-class Properties(Base):
-    '''User table model'''
-    __tablename__= "properties"
-    idproperties=Column(Integer, primary_key=True)
-    property_code=Column(String)
-    country=Column(String)
-    province=Column(String)
-    city=Column(String)
-    address=Column(String)
-    unit=Column(Integer)
-    primary_owner=Column(String)
-    other_owners=Column(String)
-
