@@ -117,7 +117,7 @@ def email_body(artifacts:dict):
         <p>{artifacts['message']}</p>
     
         
-        <a class="cta-button" href="https://helix-be-e052a79bf800.herokuapp.com/home">View Ticket</a>
+        <a class="cta-button" href="https://helixpropertymanagement-718e761927a1.herokuapp.com/home">View Ticket</a>
     </div>
 </body>
 </html>
