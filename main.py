@@ -7,7 +7,7 @@ from routers.dashboard.owner.update_tickets import mngm_ticket_router
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000","https://helixpropertymanagement-718e761927a1.herokuapp.com"],
+    allow_origins=["http://localhost:3000","https://helixpropertymanagement-718e761927a1.herokuapp.com", "http://127.0.0.1:5000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
