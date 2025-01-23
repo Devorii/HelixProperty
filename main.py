@@ -5,16 +5,12 @@ from routers.dashboard.tenant.ticket_route import ticket_router
 from routers.dashboard.owner.update_tickets import mngm_ticket_router
 
 app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",  # Local development frontend
-        "https://helixpropertymanagement-718e761927a1.herokuapp.com"  # Deployed frontend
-    ],
+    allow_origins=["http://localhost:3000", "https://helixpropertymanagement-718e761927a1.herokuapp.com"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],  # Allow necessary methods
-    allow_headers=["Content-Type", "Authorization", "X-Custom-Header"],  # Allow required headers
+    allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PUT"],  # Ensure OPTIONS is allowed
+    allow_headers=["Content-Type", "Authorization", "*"],  # Allow headers
 )
 
 app.include_router(router)
