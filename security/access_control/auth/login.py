@@ -48,6 +48,6 @@ async def user_login_method(user_data:Login) -> dict:
             generated_token=encrypt_token.encrypt()
 
             # Token should persist in cached.
-            CacheTool.set_cache(str(generated_token))
+            await CacheTool.set_cache(str(generated_token))
             user_data=await get_user_initials(user_data.email, user_data.account)
             return dict(status_code=200, token=generated_token, user_initials=user_data['initials'], name=user_data['name'],uid=user_info['id'], account=data['account'])

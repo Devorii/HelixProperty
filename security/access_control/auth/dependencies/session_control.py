@@ -17,7 +17,7 @@ from security.encryption.handler import Encryption_handler
 from dependencies.ttl_cache import CacheTool
 
 # def validate_user_account(user:dict) -> dict:
-def validate_user_account(x_access_token:str=Header(None)) -> dict:
+async def validate_user_account(x_access_token:str=Header(None)) -> dict:
     '''
     Ensures user existance and converts user token to uid.
     
@@ -30,7 +30,7 @@ def validate_user_account(x_access_token:str=Header(None)) -> dict:
         raise HTTPException(status_code=403, detail='Unauthorized access. Token is missing')
     
     # Is token in Cache?
-    is_valid=CacheTool.get_cache(x_access_token.encode('utf-8'))
+    is_valid=await CacheTool.get_cache(x_access_token.encode('utf-8'))
     if not is_valid:
         raise HTTPException(status_code=403, detail='Session expired')
 

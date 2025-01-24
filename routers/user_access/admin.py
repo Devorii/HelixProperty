@@ -11,6 +11,7 @@ from security.encryption.handler import Encryption_handler, Generate_random_hash
 from notification_protocols.email import Create_email_notification
 from security.access_control.crud_db.get_property_id import get_property_id
 from security.access_control.auth.dependencies.session_control import validate_user_account
+import redis
 
 router = APIRouter(
     prefix="/admin",
@@ -98,7 +99,6 @@ async def login(payload:Annotated[Login, Depends(user_login_method)]):
     property_id=await get_property_id(property_assets)
     payload['property_id']=property_id
     _,_=payload.pop('uid'),payload.pop('account')
-
     return payload
 
 
