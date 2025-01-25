@@ -34,9 +34,9 @@ async def verify_accounts(payload: dict) -> str:
         with get_db() as db:
             is_valid_query = select(user_account[payload['account']].verification).where(user_account[payload['account']].id == payload['uid'])
             is_valid=db.execute(is_valid_query).fetchone()
-            db_validation_status=bool(is_valid[0])
+            db_validation_status=is_valid[0]
 
-            if not db_validation_status:
+            if db_validation_status != 'True':
                 operator = (
                         update(user_account[payload['account']])
                         .values(verification="True")  # Corrected typo
@@ -46,7 +46,7 @@ async def verify_accounts(payload: dict) -> str:
                 db.execute(operator)
                 db.commit()
                 return "Account Verified"
-            return dict(status_code=200, detail="This account has been verified")
+            return dict(status_code=200, detail=f"This account has been verified")
     except Exception as e:  
         raise HTTPException(status_code=400, detail=f"User not found or verification failed-{e}")
 
