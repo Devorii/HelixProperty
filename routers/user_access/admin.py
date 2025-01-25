@@ -102,7 +102,7 @@ async def login(payload:Annotated[Login, Depends(user_login_method)]):
     return payload
 
 
-@router.get("/verify-accout/{code}/{account}/{token}")
+@router.get("/verify-account/{code}/{account}/{token}")
 async def verify_account(code:str, account:str, token:str):
     instantiate_decryption=Encryption_handler(token, "password")
     uid = instantiate_decryption.decrypt()
