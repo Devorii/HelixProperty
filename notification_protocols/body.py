@@ -125,7 +125,7 @@ def email_body(artifacts:dict):
         <p>We are excited to welcome you to Helix Property Management.</p>
         {inject_elements}
 
-        <a href="https://helixpropertymanagement-718e761927a1.herokuapp.com/admin/verification/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Verify Account</a>
+        <a href="https://helixpropertymanagement-718e761927a1.herokuapp.com/verification/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Verify Account</a>
         <p style="margin-top: 20px;">If you have any questions or need assistance, feel free to contact our support team.</p>
         <p>Best regards,<br> The Helix Property Management Team</p>
     </div>
