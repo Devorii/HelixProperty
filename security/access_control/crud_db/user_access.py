@@ -34,6 +34,7 @@ async def add_user(user:dict) -> dict:
         with get_db() as db:
             acc = user['account']
             user.pop('account', None)
+            user.pop('propCodeMngmt', None)
             db.add(user_account[acc](**user))
             db.commit()
             return dict(email=user['email'])
@@ -60,7 +61,7 @@ async def get_uid(email:str, account:str):
                 user_id=uid[0]
                 init_encryption = Encryption_handler(str(user_id), "password")
                 token=init_encryption.encrypt()
-            return token.decode()
+            return dict(uid=uid[0], token=token.decode())
     except Exception as e:  
         raise HTTPException(status_code=400, detail="user not found")
 

@@ -13,7 +13,7 @@ async def payload_validation(data: dict):
 
     # EMAIL PATTERN TO MATCH
     email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    phone_pattern = r'^[0-9]{3}-[0-9]{3}-[0-9]{4}$'
+    phone_pattern = r'^\d{3}-?\d{3}-?\d{4}$'
 
 
     if re.match(email_pattern, data['email']) and re.match(phone_pattern, data['phone']):

@@ -41,6 +41,7 @@ async def user_login_method(user_data:Login) -> dict:
         decrypt_password = Encryption_handler(user_info['password'], "password")
         decrypted_password=decrypt_password.decrypt()
 
+
         if decrypted_password != data['password']:
             raise HTTPException(status_code=403, detail="Invalid password")
         else: 

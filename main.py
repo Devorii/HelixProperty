@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from routers.user_access.admin import router
 from routers.dashboard.tenant.ticket_route import ticket_router
 from routers.dashboard.owner.update_tickets import mngm_ticket_router
+from routers.dashboard.owner.reopen_ticket import reopen_ticket_router
 from dependencies.redis_client import RedisClient
 
 
@@ -30,3 +31,4 @@ app.add_middleware(
 app.include_router(router)
 app.include_router(ticket_router)
 app.include_router(mngm_ticket_router)
+app.include_router(reopen_ticket_router)
