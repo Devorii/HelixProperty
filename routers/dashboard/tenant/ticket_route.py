@@ -42,11 +42,11 @@ async def create_issue_report(ticket_info: CreateTicket, backgroundtasks:Backgro
     ticket_i['status']='Open'
     create_hash=random.randint(10000, 99999)
     ticket_i['ticket_num']=create_hash
-    owner_management_email= await add_ticket(ticket_i)
+    email_ls= await add_ticket(ticket_i)
 
     artifacts=dict(
         username=ticket_i['author'], 
-        email=owner_management_email, 
+        email=email_ls, 
         message=ticket_i['description'], 
         ticket_num=ticket_i['ticket_num'], 
         issue=ticket_i['title'],
@@ -65,11 +65,11 @@ async def view_tickets_info(ticket_information:dict, backgroundtasks:BackgroundT
     :params dict:ticket_information
     '''
     current_date = datetime.now() 
-    management_email= await close_ticket(ticket_information)
+    email_list= await close_ticket(ticket_information)
 
     artifacts=dict(
     username=ticket_information['author'], 
-    email=management_email, 
+    email=email_list, 
     ticket_num=ticket_information['ticket_num'], 
     issue=ticket_information['title'],
     date=current_date.strftime('%Y-%m-%d')
@@ -77,4 +77,4 @@ async def view_tickets_info(ticket_information:dict, backgroundtasks:BackgroundT
 
     ready_email=CloseTicket_email_notification(artifacts)
     backgroundtasks.add_task(ready_email.send_mail)
-    return management_email
+    return 'Ticket Closed'

@@ -22,7 +22,7 @@ class Create_email_notification():
         '''SEND MAIL TO CLIENT'''
         message = MIMEMultipart()
         message["From"] = self.sender_email
-        message["To"] = self.user_email
+        message["To"] = ", ".join(self.user_email)
         message["Subject"] = f"HP Management - {self.username} created a ticket"
         body = email_body(self.body_artifacts)
         message.attach(MIMEText(body, "html"))
