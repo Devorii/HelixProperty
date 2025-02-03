@@ -1,4 +1,10 @@
 def email_body(artifacts:dict):
+
+    if artifacts['account'] != 'OW1':
+        account_status='Tenant'
+    else:
+        account_status='Admin'
+
     svg_logo = """
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='100' height='100' fill='%233498db'>
         <path d='M12 21.35l-1.45-1.32C6.34 15.36 3 12.28 3 8.5 3 5.42 5.42 3 8.5 3c1.74 0 3.41.81 4.5 2.09C14.09 3.81 15.76 3 17.5 3 20.58 3 23 5.42 23 8.5c0 3.78-3.34 6.86-7.55 11.54L12 21.35z'/>
@@ -122,11 +128,11 @@ def email_body(artifacts:dict):
     <div class="container">
         <h1 style="color: rgb(4, 58, 145)">{artifacts['name']} - Requesting Access</h1>
         <p>Dear User,</p>
-        <p>{artifacts['name']} is requesting admin access. If you do not know this user, report it to info@devorii.com</p>
+        <p>{artifacts['name']} is requesting {account_status} access for your property with following user code.</p>
         {inject_elements}
 
         <a href="https://helixpropertymanagement-718e761927a1.herokuapp.com/verification/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Grant Access to {artifacts['name']}</a>
-        <p style="margin-top: 20px;">If you have any questions or need assistance, feel free to contact our support team.</p>
+        <p style="margin-top: 20px;">If you have any questions or need assistance, feel free to contact our support team at info@devorii.com.</p>
         <p>Best regards,<br> The Helix Property Management Team</p>
     </div>
 </body>

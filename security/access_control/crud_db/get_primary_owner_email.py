@@ -15,7 +15,7 @@ async def get_primary_owner_email(assets:str):
     '''
     try: 
         with get_db() as db:
-            query=select(Properties.primary_owner).where(Properties.other_owners.ilike(f'%{assets}%'))
+            query=select(Properties.primary_owner).where(Properties.property_code==assets)
             primary_owner_id=db.execute(query).first()
   
             get_primary_owner_email_address=select(Owner.email).where(Owner.id==primary_owner_id[0])

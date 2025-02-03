@@ -56,12 +56,12 @@ async def get_uid(email:str, account:str):
     try: 
         with get_db() as db:
             operator = select(user_account[account].id).where(user_account[account].email == email)
-            uid = db.execute(operator).fetchone()
+            uid = db.execute(operator).first()
             if uid is not None:
                 user_id=uid[0]
                 init_encryption = Encryption_handler(str(user_id), "password")
                 token=init_encryption.encrypt()
-            return dict(uid=uid[0], token=token.decode())
+            return dict(uid=user_id, token=token.decode())
     except Exception as e:  
         raise HTTPException(status_code=400, detail="user not found")
 

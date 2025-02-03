@@ -89,21 +89,24 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
             user_data['property_id']=user_data['code']
             user_data.pop('code', None)
             await add_user(user_data)
+
+
+
         uid_obj=await get_uid(user_data['email'], account)
+
         token = uid_obj['token']
+  
+        name=f"{user_data['firstname']} {user_data['lastname']}"
 
-
-        if property_obj['primary_owner'] != "false":
+        if account == 'OW1' and property_obj['primary_owner'] == 'true':
             primary_email=user_data['email']
-            name=user_data['firstname']
         else:
-            primary_email=await get_primary_owner_email(uid_obj['uid'])
-            name=f"{user_data['firstname']} {user_data['lastname']}"
+            primary_email=await get_primary_owner_email(prop_id)
+
 
         email_artifacts = dict(email=primary_email, name=name, hash_code=crop_hash, account=account, token=token, propId=prop_id)
-        # # # Send email as background task.
 
-        if property_obj['primary_owner'] != "false":
+        if account == 'OW1' and property_obj['primary_owner'] == 'true':
             create_notification = Create_email_notification(email_artifacts)
         else:
             create_notification = Create_req_email_notification(email_artifacts)
