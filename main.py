@@ -26,7 +26,7 @@ app.mount("/artifacts", StaticFiles(directory="artifacts"), name="artifacts")
 # CORS middleware (to allow specific origins)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://helixpropertymanagement-718e761927a1.herokuapp.com", "https://peachstreet.io", "https:"],
+    allow_origins=["http://localhost:3000", "https://helixpropertymanagement-718e761927a1.herokuapp.com", "https://peachstreet.io/", "https://www.peachstreet.io/"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PUT"],
     allow_headers=["Content-Type", "Authorization", "*"],
