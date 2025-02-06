@@ -1,9 +1,4 @@
 def email_body(artifacts:dict):
-    svg_logo = """
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='100' height='100' fill='%233498db'>
-        <path d='M12 21.35l-1.45-1.32C6.34 15.36 3 12.28 3 8.5 3 5.42 5.42 3 8.5 3c1.74 0 3.41.81 4.5 2.09C14.09 3.81 15.76 3 17.5 3 20.58 3 23 5.42 23 8.5c0 3.78-3.34 6.86-7.55 11.54L12 21.35z'/>
-    </svg>
-    """
 
     body = f"""
 <!DOCTYPE html>
@@ -101,11 +96,9 @@ def email_body(artifacts:dict):
 <body>
     <div class="header">
         <div class="logo">
-            <div class="helix-text">Helix</div>
-            <div class="property-text">Property</div>
-            <div class="management-text">Management</div>
+        <div class="helix-text">PEACH STREET</div>
         </div>
-        {svg_logo}
+    
     </div>
     <div class="container">
         <h1 style="color: rgb(4, 58, 145)">Ticket #{artifacts['ticket_num']} was closed</h1>
@@ -117,7 +110,7 @@ def email_body(artifacts:dict):
 
     
         
-        <a class="cta-button" href="https://helixpropertymanagement-718e761927a1.herokuapp.com/home">View Ticket</a>
+        <a class="cta-button" href="https://peachstreet.io/home">View Ticket</a>
     </div>
 </body>
 </html>

@@ -20,7 +20,7 @@ class Create_email_notification():
         message = MIMEMultipart()
         message["From"] = self.sender_email
         message["To"] = self.user_email
-        message["Subject"] = "Helix Proptery Management - Verify your account"
+        message["Subject"] = "Peach Street - Verify your account"
         body = email_body(self.body_artifacts)
         message.attach(MIMEText(body, "html"))
 

@@ -20,7 +20,7 @@ class CloseTicket_email_notification():
         message = MIMEMultipart()
         message["From"] = self.sender_email
         message["To"] = ", ".join(self.user_email)
-        message["Subject"] = f"HP Management - {self.username} closed a ticket"
+        message["Subject"] = f"Peach Street - {self.username} closed a ticket"
         body = email_body(self.body_artifacts)
         message.attach(MIMEText(body, "html"))
 

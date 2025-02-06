@@ -20,7 +20,7 @@ class Create_req_email_notification():
         message = MIMEMultipart()
         message["From"] = self.sender_email
         message["To"] = self.user_email
-        message["Subject"] = "Helix Proptery Management - Access Request"
+        message["Subject"] = "Peach Street - Access Request"
         body = email_body(self.body_artifacts)
         message.attach(MIMEText(body, "html"))
 

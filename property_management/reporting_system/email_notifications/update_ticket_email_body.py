@@ -101,11 +101,8 @@ def email_body(artifacts:dict):
 <body>
     <div class="header">
         <div class="logo">
-            <div class="helix-text">Helix</div>
-            <div class="property-text">Property</div>
-            <div class="management-text">Management</div>
+        <div class="helix-text">PEACH STREET</div>
         </div>
-        {svg_logo}
     </div>
     <div class="container">
         <h1 style="color: rgb(4, 58, 145)">Ticket #{artifacts['ticket_num']} was updated.</h1>
@@ -117,7 +114,7 @@ def email_body(artifacts:dict):
 
     
         
-        <a class="cta-button" href="https://helixpropertymanagement-718e761927a1.herokuapp.com/home">View Ticket</a>
+        <a class="cta-button" href="https://peachstreet.io/home">View Ticket</a>
     </div>
 </body>
 </html>

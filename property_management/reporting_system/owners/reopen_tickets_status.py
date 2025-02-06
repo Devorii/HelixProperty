@@ -50,4 +50,3 @@ async def reopen_ticket_status(ticket_info):
         return ls
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"failed to add user - {e}")
-    pass

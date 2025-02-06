@@ -1,6 +1,8 @@
 import time
 import asyncio
+from whitenoise import WhiteNoise
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from routers.user_access.admin import router
@@ -20,13 +22,21 @@ async def lifespan(app:FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.mount("/artifacts", StaticFiles(directory="artifacts"), name="artifacts")
+# CORS middleware (to allow specific origins)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://helixpropertymanagement-718e761927a1.herokuapp.com"],
+    allow_origins=["http://localhost:3000", "https://helixpropertymanagement-718e761927a1.herokuapp.com", "https://peachstreet.io", "https:"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PUT"],  # Ensure OPTIONS is allowed
-    allow_headers=["Content-Type", "Authorization", "*"],  # Allow headers
+    allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PUT"],
+    allow_headers=["Content-Type", "Authorization", "*"],
 )
+
+# WhiteNoise middleware to serve static files
+# app.add_middleware(
+#     WhiteNoise,
+#     root="artifacts",  # Make sure the path is correct
+# )
 
 app.include_router(router)
 app.include_router(ticket_router)
