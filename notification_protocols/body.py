@@ -118,7 +118,7 @@ def email_body(artifacts:dict):
         <p>We are excited to welcome you to Helix Peach Street.</p>
         {inject_elements}
 
-        <a href="https://peachstreet.io/verification/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Verify Account</a>
+        <a href="https://www.peachstreet.io/verification/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Verify Account</a>
         <p style="margin-top: 20px;">If you have any questions or need assistance, feel free to contact our support team.</p>
         <p>Best regards,<br> The Peach Street Team</p>
     </div>

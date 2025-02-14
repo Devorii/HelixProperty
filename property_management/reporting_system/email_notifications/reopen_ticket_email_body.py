@@ -111,7 +111,7 @@ def email_body(artifacts:dict):
 
     
         
-        <a class="cta-button" href="https://peachstreet.io/home">View Ticket</a>
+        <a class="cta-button" href="https://www.peachstreet.io">View Ticket</a>
     </div>
 </body>
 </html>

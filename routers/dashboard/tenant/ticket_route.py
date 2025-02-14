@@ -1,6 +1,9 @@
 import random
-from fastapi import APIRouter, BackgroundTasks, Depends
+from typing import Optional, Union,List
+from typing import Annotated
 from datetime import datetime
+from property_management.utilities.upload_images import send_files
+from fastapi import APIRouter, BackgroundTasks, Depends, File, UploadFile, Form, Request
 from property_management.reporting_system.models.request_models import CreateTicket
 from property_management.reporting_system.tenants.add_ticket import add_ticket
 from property_management.reporting_system.email_notifications.new_ticket_notification import Create_email_notification
@@ -8,6 +11,8 @@ from property_management.reporting_system.email_notifications.close_ticket_notif
 from property_management.reporting_system.view_tickets import view_tickets
 from property_management.reporting_system.tenants.close_ticket import close_ticket
 from security.access_control.auth.dependencies.session_control import validate_user_account
+from property_management.reporting_system.models.ticket_img_models import TicketsImgUrl
+from property_management.reporting_system.tenants.add_ticket_imgs import add_ticket_imgs
 
 
 ticket_router = APIRouter(
@@ -29,20 +34,50 @@ async def view_tickets_info(payload:dict, session:str=Depends(validate_user_acco
 
 
 @ticket_router.post('/create-ticket')
-async def create_issue_report(ticket_info: CreateTicket, backgroundtasks:BackgroundTasks=BackgroundTasks, session:str=Depends(validate_user_account)) -> str:
+async def create_issue_report(    
+    category: str = Form(...),  # Accept individual form fields for CreateTicket
+    title: str = Form(...),
+    description: str = Form(...),
+    author: str = Form(...),
+    author_id: int = Form(...),
+    property_id: str = Form(...), 
+    images:List[UploadFile] = File(None), 
+    request:Request=Request,
+    backgroundtasks:BackgroundTasks=BackgroundTasks, 
+    session:str=Depends(validate_user_account)) -> str:
     '''
     Creates ticket for tenants
 
     :params CreateTicket: ticket_info
     :return str
     '''
+    groomed_files = List[images] if not isinstance(images, List) else images
+
+    ticket_i = {
+    'category': category,
+    'title': title,
+    'description': description,
+    'author': author,
+    'author_id': author_id,
+    'property_id': property_id,
+    'created_date': datetime.now().strftime('%Y-%m-%d'),
+    'status': 'Open',
+    'ticket_num': random.randint(10000, 99999)
+    }
+
     current_date = datetime.now() 
-    ticket_i = ticket_info.dict() 
-    ticket_i['created_date'] = current_date.strftime('%Y-%m-%d') 
-    ticket_i['status']='Open'
-    create_hash=random.randint(10000, 99999)
-    ticket_i['ticket_num']=create_hash
     email_ls= await add_ticket(ticket_i)
+      
+    if groomed_files is not List[None]:
+        get_image_urls=await send_files(groomed_files, ticket_i['ticket_num'], request.app.state.bucket)
+        for img_url in get_image_urls:
+            img_metadata=dict(
+                property_id=ticket_i['property_id'],
+                ticket_number=ticket_i['ticket_num'],
+                images_url=img_url,
+                created_on=current_date.strftime('%Y-%m-%d')
+                )
+            await add_ticket_imgs(img_metadata)
 
     artifacts=dict(
         username=ticket_i['author'], 

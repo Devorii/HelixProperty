@@ -125,7 +125,7 @@ def email_body(artifacts:dict):
         <p>{artifacts['name']} is requesting {account_status} access for your property with following user code.</p>
         {inject_elements}
 
-        <a href="https://peachstreet.io/verification/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Grant Access to {artifacts['name']}</a>
+        <a href="https://www.peachstreet.io/verification/{artifacts['hash_code']}/{artifacts['account']}/{artifacts['token']}" class="cta-button">Grant Access to {artifacts['name']}</a>
         <p style="margin-top: 20px;">If you have any questions or need assistance, feel free to contact our support team at info@devorii.com.</p>
         <p>Best regards,<br> The Peach Street Team</p>
     </div>
