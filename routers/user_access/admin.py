@@ -88,6 +88,7 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
             user_data.pop('po', None)   
             user_data['property_id']=user_data['code']
             user_data.pop('code', None)
+
             await add_user(user_data)
 
 
@@ -102,8 +103,7 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
             primary_email=user_data['email']
         else:
             primary_email=await get_primary_owner_email(prop_id)
-
-
+        
         email_artifacts = dict(email=primary_email, name=name, hash_code=crop_hash, account=account, token=token, propId=prop_id)
 
         if account == 'OW1' and property_obj['primary_owner'] == 'true':
@@ -113,6 +113,7 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
 
         background_task.add_task(create_notification.send_mail)
         return Create_account_response(status_code=200, token=str(token), detail=f"Successful! Account created.")
+        return 'Tenant account'
     except Exception as e:
         raise HTTPException(status_code=400, detail=f'Bad request - {e}')
 

@@ -7,7 +7,7 @@ from models.users import Owner
 
 
 
-async def get_primary_owner_email(assets:str):
+async def get_primary_owner_email(assets):
     '''
     Get primary owner's email
 
@@ -15,11 +15,15 @@ async def get_primary_owner_email(assets:str):
     '''
     try: 
         with get_db() as db:
+      
             query=select(Properties.primary_owner).where(Properties.property_code==assets)
-            primary_owner_id=db.execute(query).first()
+            primary_owner_id=db.execute(query).fetchone()
+       
   
             get_primary_owner_email_address=select(Owner.email).where(Owner.id==primary_owner_id[0])
-            prime_owner_email=db.execute(get_primary_owner_email_address).first()
+            prime_owner_email=db.execute(get_primary_owner_email_address).fetchone()
+
+     
             return prime_owner_email[0]
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"{e}")
