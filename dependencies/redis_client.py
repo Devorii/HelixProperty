@@ -17,7 +17,7 @@ class RedisClient:
             cls._instance = super().__new__(cls, *args, **kwargs)
             cls._instance.init_redis=redis.asyncio.Redis(
                 host=REDIS_HOST,
-                port=REDIS_PORT,
+                port=16723,
                 password=REDIS_PASSWORD,
                 decode_responses=True,
             )

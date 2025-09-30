@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class Create_user_request(BaseModel):
@@ -18,3 +19,15 @@ class Login(BaseModel):
     email:str
     password:str
     account:str
+
+class expense_payload(BaseModel):
+    billNumber:str
+    calculations:dict
+    category:str
+    currency:str
+    dueDate:str
+    items:List
+    posoNumber:str
+    timestamp:str
+    vendor:str
+    propID:str
