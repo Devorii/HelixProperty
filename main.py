@@ -14,6 +14,7 @@ from routers.cloud_services.firebase import firebase
 from routers.dashboard.owner.leave_comments import comment_router
 from routers.dashboard.owner.tenant_info_mng import contact_info_router
 from routers.dashboard.owner.expenses import expense_router
+from routers.dashboard.owner.vendors_endpoints import vendor_ticket_router
 from dependencies.redis_client import RedisClient
 
 
@@ -52,3 +53,4 @@ app.include_router(firebase)
 app.include_router(comment_router)
 app.include_router(contact_info_router)
 app.include_router(expense_router)
+app.include_router(vendor_ticket_router)

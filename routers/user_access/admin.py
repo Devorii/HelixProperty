@@ -12,6 +12,7 @@ from notification_protocols.email import Create_email_notification
 from notification_protocols.admin_request_email import Create_req_email_notification
 from security.access_control.crud_db.get_primary_owner_email import get_primary_owner_email
 from security.access_control.crud_db.get_property_id import get_property_id
+from security.access_control.crud_db.get_property_metadata import get_property_metadata
 from security.access_control.auth.dependencies.session_control import validate_user_account
 
 
@@ -123,7 +124,9 @@ async def create_account(user_data: Annotated[dict, Depends(payload_validation)]
 async def login(payload:Annotated[Login, Depends(user_login_method)]):
     property_assets=dict(uid=payload['uid'], account=payload['account'])
     property_id=await get_property_id(property_assets)
+    property_metadata_generate = await get_property_metadata(property_assets)
     payload['property_id']=property_id
+    payload['property_metadata']=property_metadata_generate
     _,_=payload.pop('uid'),payload.pop('account')
     return payload
 
