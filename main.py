@@ -35,9 +35,10 @@ app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000", 
-                   "https://www.peachstreet.io", 
-                   "https://peachstreet.io/", 
+                   "https://www.peachstreet.io",  
                    "https://www.peachstreet.io/",
+                   "https://peachstreet.io/",
+                   "https://peachstreet.io",
                    "http://localhost:3000/"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PUT"],       
