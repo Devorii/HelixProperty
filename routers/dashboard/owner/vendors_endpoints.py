@@ -1,6 +1,6 @@
 # import random
 # import openpyxl
-# from fastapi import APIRouter, UploadFile, Depends
+from fastapi import APIRouter, UploadFile, Depends
 # from datetime import datetime
 # from property_management.reporting_system.email_notifications.update_ticket_notification import UpdateTicket_email_notification
 # from property_management.reporting_system.owners.update_tickets_status import update_ticket_status
@@ -11,14 +11,15 @@
 
 
 
-# vendor_ticket_router = APIRouter(
-#     prefix="/vendors",
-#     tags=["admin"],
-#     responses={404: {"description": "Not found"}}
-# )
+vendor_ticket_router = APIRouter(
+    prefix="/vendors",
+    tags=["admin"],
+    responses={404: {"description": "Not found"}}
+)
 
-# @vendor_ticket_router.post('/upload')
-# async def upload_vendors(file: UploadFile):
+@vendor_ticket_router.post('/upload')
+async def upload_vendors(file: UploadFile):
+    return "Hello World"
 #     '''
 #     upload vendors to database
 #     :params file:UploadFile
