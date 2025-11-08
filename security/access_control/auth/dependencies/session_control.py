@@ -17,7 +17,7 @@ from security.encryption.handler import Encryption_handler
 from dependencies.ttl_cache import CacheTool
 
 # def validate_user_account(user:dict) -> dict:
-async def validate_user_account(x_access_token:str=Header(None)) -> dict:
+async def validate_user_account(x_access_token:str=Header(None)) -> int:
     '''
     Ensures user existance and converts user token to uid.
     

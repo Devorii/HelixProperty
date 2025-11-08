@@ -27,3 +27,21 @@ async def get_primary_owner_email(assets):
             return prime_owner_email[0]
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"{e}")
+    
+
+
+async def get_primary_owner_email_by_id(user_id:int) -> str:
+    '''
+    Get primary owner's email
+
+    :params dict:assets
+    :return:str email
+    '''
+    try: 
+        with get_db() as db:
+            get_primary_owner_email_address=select(Owner.email).where(Owner.id==user_id)
+            prime_owner_email=db.execute(get_primary_owner_email_address).fetchone()
+
+            return prime_owner_email[0]
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"{e}")

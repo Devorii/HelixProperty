@@ -16,7 +16,7 @@ Dependencies:
 from fastapi import HTTPException
 from security.encryption.handler import Encryption_handler
 from models.request import Login
-from security.access_control.crud_db.user_access import is_user, get_user_initials
+from security.access_control.crud_db.user_access import is_user, get_user_initials, get_user_stripe
 from dependencies.ttl_cache import CacheTool
 
 
@@ -51,4 +51,6 @@ async def user_login_method(user_data:Login) -> dict:
             # Token should persist in cached.
             await CacheTool.set_cache(str(generated_token))
             user_data=await get_user_initials(user_data.email, user_data.account)
+
+
             return dict(status_code=200, token=generated_token, user_initials=user_data['initials'], name=user_data['name'],uid=user_info['id'], account=data['account'])

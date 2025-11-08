@@ -31,3 +31,4 @@ class Properties(Base):
     unit=Column(Integer)
     primary_owner=Column(String)
     other_owners=Column(String)
+    stripe_account=Column(String)

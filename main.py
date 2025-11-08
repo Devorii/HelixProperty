@@ -15,6 +15,9 @@ from routers.dashboard.owner.leave_comments import comment_router
 from routers.dashboard.owner.tenant_info_mng import contact_info_router
 from routers.dashboard.owner.expenses import expense_router
 from routers.dashboard.owner.vendors_endpoints import vendor_ticket_router
+from routers.dashboard.owner.manage_stripe_acc import stripe_router
+from routers.dashboard.owner.rent import rent_router
+from routers.dashboard.tenant.rent_payments import tenant_rent_router
 from dependencies.redis_client import RedisClient
 
 
@@ -46,12 +49,21 @@ app.add_middleware(
 )
 
 
+
 app.include_router(router)
-app.include_router(ticket_router)
-app.include_router(mngm_ticket_router)
-app.include_router(reopen_ticket_router)
 app.include_router(firebase)
-app.include_router(comment_router)
-app.include_router(contact_info_router)
+app.include_router(rent_router)
+app.include_router(ticket_router)
+app.include_router(stripe_router)
 app.include_router(expense_router)
+app.include_router(comment_router)
+app.include_router(tenant_rent_router)
+app.include_router(mngm_ticket_router)
+app.include_router(contact_info_router)
 app.include_router(vendor_ticket_router)
+app.include_router(reopen_ticket_router)
+
+
+
+
+

@@ -22,6 +22,8 @@ from sqlalchemy import select
 
 user_account = {'OW1':Owner, 'TE1': Tenants}
 
+
+
 async def add_user(user:dict) -> dict:
     ''' 
     Stores user's information in our database.
@@ -90,6 +92,32 @@ async def get_user_initials(email:str,account:str) -> dict:
     except Exception as e:  
         raise HTTPException(status_code=400, detail=f"e: {e}")
     
+
+
+
+async def get_user_stripe(email:str,account:str) -> dict:
+    '''
+    User injected dependencies email and account, 
+    finds user's first and last name, extract the begining
+    character to create thier initials. 
+
+    :params str:email
+    :params str:account 
+
+    :return dict(initials)
+    '''
+    try: 
+        with get_db() as db:
+            operator = select(user_account[account].stripe_account_id).where(user_account[account].email == email)
+            stripe_acc = db.execute(operator).fetchone()
+            if stripe_acc[0] is not None:
+                return 633
+            return 564
+    except Exception as e:  
+        raise HTTPException(status_code=400, detail=f"e: {e}")
+    
+
+
 
 async def is_user(data:dict): 
     '''

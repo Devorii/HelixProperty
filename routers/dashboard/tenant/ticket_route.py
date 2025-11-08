@@ -113,3 +113,5 @@ async def view_tickets_info(ticket_information:dict, backgroundtasks:BackgroundT
     ready_email=CloseTicket_email_notification(artifacts)
     backgroundtasks.add_task(ready_email.send_mail)
     return 'Ticket Closed'
+
+

@@ -29,7 +29,7 @@ from database_ops.db_connection import get_db
 from property_management.reporting_system.models.triage_tickets import Triage_tickets
 from sqlalchemy import select, delete
 from models.users import Tenants
-from property_management.models.properties_table import Properties
+from property_management.rent.rental_management import get_tenants_rent_info
 from models.users import Tenants
 
 
@@ -44,6 +44,7 @@ async def get_tenants_information(property_info):
             tenants=db.execute(tenant).fetchall()
 
             for tenants_info in tenants:
+                rental_price = await get_tenants_rent_info(property_info.get('property_id'), tenants_info[0].id)
                 tenant_data=tenants_info[0]
                 fname,lname=tenant_data.firstname, tenant_data.lastname
                 initials=fname[0]+lname[0]
@@ -52,6 +53,7 @@ async def get_tenants_information(property_info):
                 tnt_age=today.year - tnt_dob.year - ((today.month, today.day) < (tnt_dob.month, tnt_dob.day))
                 groom_data=dict(
                     uid=tenant_data.id,
+                    rental_price=rental_price,
                     intials=initials, 
                     fullname=f"{fname} {lname}", 
                     email=tenant_data.email,
@@ -60,7 +62,7 @@ async def get_tenants_information(property_info):
                     phone=tenant_data.phone, 
                     occupation=tenant_data.occupation, 
                     company=tenant_data.company)
-                
+
                 output.append(groom_data)
         return output
     except Exception as e:

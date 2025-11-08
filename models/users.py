@@ -35,6 +35,7 @@ class Owner(Base):
     unit=Column(Integer)
     password=Column(String)
     verification=Column(String)
+    stripe_account_id=Column(String)
 
 
 class Tenants(Base):
