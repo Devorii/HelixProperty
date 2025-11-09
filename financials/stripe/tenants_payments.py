@@ -45,3 +45,9 @@ async def setup_tenant_payment(prop_id, tenant_id):
         return {"client_secret": session.client_secret, 'payment_email':owner_stripe_account.get('email')}
     except stripe.error.StripeError as e:
         raise e
+    
+
+
+async def get_etransfer_email(prop_id:str):
+    owner_stripe_account = await get_owner_stripe_account_with_prop_id(prop_id)
+    return owner_stripe_account.get('email')
