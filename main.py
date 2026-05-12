@@ -66,7 +66,6 @@ app.include_router(contact_info_router)
 app.include_router(vendor_ticket_router)
 app.include_router(reopen_ticket_router)
 
-
 @app.get("/health")
 async def health_check():
     """Health check endpoint for container orchestration."""
