@@ -1,13 +1,56 @@
 from sqlalchemy import create_engine
 from contextlib import contextmanager
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
 import os
+import json
+import boto3
+from botocore.exceptions import ClientError
+from typing import Optional
 
 load_dotenv()
 
 
-SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{os.getenv('USERNAME')}:{os.getenv('PASSWORD')}@{os.getenv('HOSTNAME')}/{os.getenv('DATABASE')}"
+def get_secret(secret_name: Optional[str] = None, region_name: str = "us-east-1") -> dict:
+    session = boto3.session.Session()
+    client = session.client(service_name="secretsmanager", region_name=region_name)
+
+    try:
+        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
+    except ClientError as e:
+        raise e
+
+    secret_string = get_secret_value_response.get("SecretString")
+    if not secret_string:
+        raise ValueError(f"Secret {secret_name} did not contain a SecretString")
+
+    return json.loads(secret_string)
+
+
+def load_database_url() -> str:
+    if os.getenv("USE_AWS_SECRETS", "").lower() == "true":
+        secret_name = os.getenv("AWS_SSM_USERNAME", None)
+        region_name = os.getenv("AWS_SECRET_REGION", "us-east-1")
+        secret_values = get_secret(secret_name, region_name)
+
+        username = secret_values.get("USERNAME")
+        password = secret_values.get("PASSWORD")
+        hostname = secret_values.get("HOSTNAME")
+        database = secret_values.get("DATABASE")
+    else:
+        username = os.getenv("USERNAME")
+        password = os.getenv("PASSWORD")
+        hostname = os.getenv("HOSTNAME")
+        database = os.getenv("DATABASE")
+
+    if not all([username, password, hostname, database]):
+        raise ValueError("Database configuration is incomplete. Check environment variables or AWS Secrets Manager secrets.")
+
+    return f"mysql+pymysql://{username}:{password}@{hostname}/{database}"
+
+
+SQLALCHEMY_DATABASE_URL = load_database_url()
 # Set up connection pool
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
@@ -26,3 +69,5 @@ def get_db():
         yield db
     finally:
         db.close()
+
+Base=declarative_base()

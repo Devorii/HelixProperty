@@ -19,6 +19,8 @@ from routers.dashboard.owner.manage_stripe_acc import stripe_router
 from routers.dashboard.owner.rent import rent_router
 from routers.dashboard.tenant.rent_payments import tenant_rent_router
 from dependencies.redis_client import RedisClient
+from database_ops.db_connection import engine, Base
+import models
 
 
 
@@ -27,6 +29,7 @@ async def lifespan(app:FastAPI):
     redis_client=RedisClient()
     await redis_client.redis_client()
     await firebase_initializer(app)
+    Base.metadata.create_all(bind=engine)
     yield
     await redis_client.redis_client_close()
     pass
@@ -64,6 +67,8 @@ app.include_router(vendor_ticket_router)
 app.include_router(reopen_ticket_router)
 
 
-
-
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for container orchestration."""
+    return {"status": "healthy"}
 
