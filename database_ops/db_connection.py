@@ -50,6 +50,7 @@ def load_database_url() -> str:
     return f"mysql+pymysql://{username}:{password}@{hostname}/{database}"
 
 
+
 SQLALCHEMY_DATABASE_URL = load_database_url()
 # Set up connection pool
 engine = create_engine(
