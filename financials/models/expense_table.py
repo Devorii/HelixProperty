@@ -1,27 +1,23 @@
 from sqlalchemy import Column, String, Integer, Date, Text
-from sqlalchemy.ext.declarative import declarative_base
-
-
-
-Base = declarative_base()
+from database_ops.db_connection import Base
 
 class ExpenseReports(Base):
     '''ExpenseReport table model'''
     __tablename__= "expenseReports"
     expense_id=Column(Integer, primary_key=True)
-    category_id=Column(String)
-    vendor_id=Column(String)
-    currency=Column(String)
+    category_id=Column(String(255))
+    vendor_id=Column(String(255))
+    currency=Column(String(255))
     due_date=Column(Date)
-    po_so=Column(String)
-    bill_num=Column(String)
-    unit_id=Column(String)
-    total=Column(String)
-    subtotal=Column(String)
-    tax=Column(String)
-    total_paid=Column(String)
-    amount_due=Column(String)
-    unique_id=Column(String)
+    po_so=Column(String(255))
+    bill_num=Column(String(255))
+    unit_id=Column(String(255))
+    total=Column(String(255))
+    subtotal=Column(String(255))
+    tax=Column(String(255))
+    total_paid=Column(String(255))
+    amount_due=Column(String(255))
+    unique_id=Column(String(255))
 
 
 class ExpenseItems(Base):
@@ -34,9 +30,9 @@ class ExpenseItems(Base):
     '''
     __tablename__="expense_items"
     items_id=Column(Integer, primary_key=True)
-    item=Column(String)
+    item=Column(String(255))
     description=Column(Text)
     quantity=Column(Integer)
-    price=Column(String)
-    amount=Column(String)
-    report_id=Column(String)
+    price=Column(String(255))
+    amount=Column(String(255))
+    report_id=Column(String(255))

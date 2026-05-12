@@ -14,17 +14,15 @@ Dependencies:
 """
 
 from sqlalchemy import Column, String, Integer, DATETIME
-from sqlalchemy.ext.declarative import declarative_base
+from database_ops.db_connection import Base
 
-
-Base = declarative_base()
 
 class Rent(Base):
     '''Owner property table model'''
     __tablename__= "tentant_rent"
     rent_id=Column(Integer, primary_key=True)
-    prop_id=Column(String)
+    prop_id=Column(String(255))
     tenant_id=Column(Integer)
-    rental_price=Column(String)
+    rental_price=Column(String(255))
     creation_date=Column(DATETIME)
     last_update=Column(DATETIME)

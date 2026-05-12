@@ -14,20 +14,16 @@ Dependencies:
 """
 
 from sqlalchemy import Column, String, Integer, Date, Text
-from sqlalchemy.ext.declarative import declarative_base
-
-
-
-Base = declarative_base()
+from database_ops.db_connection import Base
 
 class Comments(Base):
     '''Comments table model'''
     __tablename__= "comments_list"
     id_comments=Column(Integer, primary_key=True, autoincrement=True)
-    fullname=Column(String)
-    initials=Column(String)
-    property_id=Column(String)
-    ticket_id=Column(String)
+    fullname=Column(String(255))
+    initials=Column(String(255))
+    property_id=Column(String(255))
+    ticket_id=Column(String(255))
     created_date=Column(Date)
-    role=Column(String)
+    role=Column(String(255))
     notes=Column(Text)

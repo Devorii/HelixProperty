@@ -14,21 +14,19 @@ Dependencies:
 """
 
 from sqlalchemy import Column, String, Integer
-from sqlalchemy.ext.declarative import declarative_base
+from database_ops.db_connection import Base
 
-
-Base = declarative_base()
 
 class Properties(Base):
     '''Owner property table model'''
     __tablename__= "properties"
     idproperties=Column(Integer, primary_key=True)
-    property_code=Column(String)
-    country=Column(String)
-    province=Column(String)
-    city=Column(String)
-    address=Column(String)
+    property_code=Column(String(255))
+    country=Column(String(255))
+    province=Column(String(255))
+    city=Column(String(255))
+    address=Column(String(255))
     unit=Column(Integer)
-    primary_owner=Column(String)
-    other_owners=Column(String)
-    stripe_account=Column(String)
+    primary_owner=Column(String(255))
+    other_owners=Column(String(255))
+    stripe_account=Column(String(255))

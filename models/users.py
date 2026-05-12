@@ -14,42 +14,39 @@ Dependencies:
 """
 
 from sqlalchemy import Column, String, Integer, Date
-from sqlalchemy.ext.declarative import declarative_base
+from database_ops.db_connection import Base
 
-
-
-Base = declarative_base()
 
 class Owner(Base):
     '''User table model'''
     __tablename__= "owners"
     id=Column(Integer, primary_key=True)
-    firstname=Column(String)
-    lastname=Column(String)
-    email=Column(String)
-    phone=Column(String)
-    country=Column(String)
-    province=Column(String)
-    city=Column(String)
-    address=Column(String)
+    firstname=Column(String(255))
+    lastname=Column(String(255))
+    email=Column(String(255))
+    phone=Column(String(255))
+    country=Column(String(255))
+    province=Column(String(255))
+    city=Column(String(255))
+    address=Column(String(255))
     unit=Column(Integer)
-    password=Column(String)
-    verification=Column(String)
-    stripe_account_id=Column(String)
+    password=Column(String(255))
+    verification=Column(String(255))
+    stripe_account_id=Column(String(255))
 
 
 class Tenants(Base):
     '''User table model'''
     __tablename__= "tenants"
     id=Column(Integer, primary_key=True)
-    firstname=Column(String)
-    lastname=Column(String)
+    firstname=Column(String(255))
+    lastname=Column(String(255))
     dob=Column(Date)
-    email=Column(String)
-    phone=Column(String)
-    password=Column(String)
-    property_id=Column(String)
-    occupation=Column(String)
-    company=Column(String)
+    email=Column(String(255))
+    phone=Column(String(255))
+    password=Column(String(255))
+    property_id=Column(String(255))
+    occupation=Column(String(255))
+    company=Column(String(255))
     salary=Column(Integer)
-    verification=Column(String)
+    verification=Column(String(255))

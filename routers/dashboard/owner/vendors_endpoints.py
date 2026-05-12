@@ -7,6 +7,7 @@ from property_management.reporting_system.owners.update_tickets_status import up
 from property_management.reporting_system.tenants.close_ticket import close_ticket
 from security.access_control.auth.dependencies.session_control import validate_user_account
 from vendors.models.vendors_model import Vendors
+from vendors.crud.favorite_a_vendor import Vendor
 from database_ops.db_connection import get_db
 
 
@@ -80,6 +81,43 @@ async def upload_vendors(file: UploadFile):
                     raise e
 
             
+@vendor_ticket_router.post('/add-favorite')
+async def add_vendors(vendor_obj:dict, session:int=Depends(validate_user_account)):
+    '''
+    Add a vendor to the user's favorites list
+    
+    :param vendor_obj: Dictionary containing vendor_id
+    :type vendor_obj: dict
+    :param session: User ID from session token
+    :type session: int
+    '''
+    try:
+        vendor_data = {
+            'user_id': str(session),
+            'vendor_id': str(vendor_obj.get('vendor_id'))
+        }
+        result = await Vendor.update_vendor_favorite(vendor_data)
+        return {'status': 'success', 'message': result}
+    except Exception as e:
+        raise e
+
+@vendor_ticket_router.get('/load-all')
+async def load_vendors(session:int=Depends(validate_user_account)):
+    '''
+    We're are going to load all of the vendors from the database. 
+    In the response we're going to include favorited vendors as and their information.
+
+    :params session token - extract the user's id to pull from the favorites.
+    '''
+    try:
+        vendors_data = await Vendor.get_vendors(str(session))
+        return {
+            'status': 'success',
+            'favorite_vendors': vendors_data.get('favorite_vendors'),
+            'all_vendors': vendors_data.get('all_vendors')
+        }
+    except Exception as e:
+        raise e
 
 
     

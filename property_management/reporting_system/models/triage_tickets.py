@@ -14,22 +14,19 @@ Dependencies:
 """
 
 from sqlalchemy import Column, String, Integer, Date, Text
-from sqlalchemy.ext.declarative import declarative_base
+from database_ops.db_connection import Base
 
-
-
-Base = declarative_base()
 
 class Triage_tickets(Base):
     '''Issue table model'''
     __tablename__= "triage_tickets"
     id=Column(Integer, primary_key=True)
-    category=Column(String)
-    title=Column(String)
+    category=Column(String(255))
+    title=Column(String(255))
     description=Column(Text)
     created_date=Column(Date)
     author_id=Column(Integer)
-    author=Column(String)
-    status=Column(String)
-    property_id=Column(String)
-    ticket_num=Column(String)
+    author=Column(String(255))
+    status=Column(String(255))
+    property_id=Column(String(255))
+    ticket_num=Column(String(255))
