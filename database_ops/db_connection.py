@@ -2,17 +2,20 @@ from sqlalchemy import create_engine
 from contextlib import contextmanager
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import os
 import json
 import boto3
 from botocore.exceptions import ClientError
 from typing import Optional
 
-load_dotenv()
+load_dotenv(find_dotenv())
 
 
 def get_secret(secret_name: Optional[str] = None, region_name: str = "us-east-1") -> dict:
+    if not secret_name:
+        raise ValueError("AWS secret name is required when USE_AWS_SECRETS is set to true.")
+
     session = boto3.session.Session()
     client = session.client(service_name="secretsmanager", region_name=region_name)
 
@@ -29,8 +32,12 @@ def get_secret(secret_name: Optional[str] = None, region_name: str = "us-east-1"
 
 
 def load_database_url() -> str:
+    database_url = os.getenv("DATABASE_URL") or os.getenv("SQLALCHEMY_DATABASE_URL")
+    if database_url:
+        return database_url
+
     if os.getenv("USE_AWS_SECRETS", "").lower() == "true":
-        secret_name = os.getenv("AWS_SSM_USERNAME", None)
+        secret_name = os.getenv("AWS_SECRET_NAME") or os.getenv("AWS_SSM_USERNAME")
         region_name = os.getenv("AWS_SECRET_REGION", "us-east-1")
         secret_values = get_secret(secret_name, region_name)
 
@@ -45,7 +52,11 @@ def load_database_url() -> str:
         database = os.getenv("DATABASE")
 
     if not all([username, password, hostname, database]):
-        raise ValueError("Database configuration is incomplete. Check environment variables or AWS Secrets Manager secrets.")
+        raise ValueError(
+            "Database configuration is incomplete."
+            " Set DATABASE_URL or USERNAME/PASSWORD/HOSTNAME/DATABASE in environment,"
+            " or set USE_AWS_SECRETS=true with AWS_SECRET_NAME pointing to Secrets Manager."
+        )
 
     return f"mysql+pymysql://{username}:{password}@{hostname}/{database}"
 
