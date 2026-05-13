@@ -40,7 +40,7 @@
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            bash ./build/git_update.sh -v patch
+            bash ./build/git_update.sh -v minor
             echo "Tag output:"
             cat $GITHUB_OUTPUT
 
