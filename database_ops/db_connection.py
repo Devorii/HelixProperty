@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 
-SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{os.getenv('USERNAME')}:{os.getenv('PASSWORD')}@{os.getenv('HOSTNAME')}/{os.getenv('DATABASE')}"
+SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{os.getenv('USERNAME')}:{os.getenv('PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DATABASE')}"
 # Set up connection pool
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
